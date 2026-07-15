@@ -1,0 +1,11 @@
+defaults:
+  - ../model/qwen2_100m.yaml
+  - ../data/c4_en_2b.yaml
+  - ../train/pretrain_100m.yaml
+
+experiment_name: qwen2_style_100m_c4_en
+output_dir: artifacts
+tokenizer_revision: main
+framework:
+  name: picotron
+  revision: "PIN_BEFORE_FIRST_RUN"

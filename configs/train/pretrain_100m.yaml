@@ -1,0 +1,44 @@
+precision: bf16
+seed: 42
+max_steps: 3846
+global_batch_tokens: 524288
+micro_batch_size: 8
+gradient_accumulation_steps: 1
+gradient_clip_norm: 1.0
+log_interval: 10
+validation_interval: 500
+checkpoint_interval: 1000
+
+optimizer:
+  # Select one of: adamw, muon_hybrid.
+  name: adamw
+  adamw:
+    learning_rate: 3.0e-4
+    betas: [0.9, 0.95]
+    eps: 1.0e-8
+    weight_decay: 0.1
+  muon_hybrid:
+    # Muon is used only for matrix weights inside Transformer blocks.
+    # Embeddings, tied LM head, and RMSNorm weights use this auxiliary AdamW.
+    muon_learning_rate: 0.02
+    momentum: 0.95
+    nesterov: true
+    ns_steps: 5
+    weight_decay: 0.1
+    auxiliary_adamw_learning_rate: 3.0e-4
+    auxiliary_adamw_betas: [0.9, 0.95]
+    auxiliary_adamw_eps: 1.0e-8
+    auxiliary_adamw_weight_decay: 0.1
+
+scheduler:
+  name: cosine
+  warmup_ratio: 0.02
+  min_lr_ratio: 0.1
+
+# Start with data parallelism only. Per-GPU batch and accumulation are supplied
+# by the launch script after the available GPU count and memory are confirmed.
+distributed:
+  data_parallel_size: 1
+  tensor_parallel_size: 1
+  pipeline_parallel_size: 1
+  context_parallel_size: 1

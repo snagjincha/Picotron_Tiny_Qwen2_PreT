@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Large, generated experiment assets
+data/raw/
+data/cleaned/
+data/splits/
+data/tokenized/
+artifacts/checkpoints/
+artifacts/logs/
+artifacts/generations/
+artifacts/figures/
+
+# External framework checkout
+third_party/picotron/

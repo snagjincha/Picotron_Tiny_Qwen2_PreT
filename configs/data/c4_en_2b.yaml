@@ -1,0 +1,26 @@
+dataset:
+  name: allenai/c4
+  config: en
+  split: train
+  streaming: true
+
+preprocessing:
+  normalization: NFKC
+  min_characters: 200
+  remove_html: true
+  remove_control_characters: true
+  exact_deduplication: true
+  validation_fraction: 0.01
+  split_seed: 42
+
+tokenization:
+  tokenizer_name: Qwen/Qwen2-0.5B
+  add_eos_between_documents: true
+  sequence_length: 512
+
+# This is the post-tokenization, packed train-token budget.
+train_token_budget: 2016061440
+# Fixed validation set, close to 1% of the train-token budget and divisible by
+# sequence_length. It is never included in the training-token budget.
+validation_token_budget: 20160512
+output_dir: data/tokenized/qwen2_100m_c4_en
